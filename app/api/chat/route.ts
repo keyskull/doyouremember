@@ -82,7 +82,7 @@ export async function POST(req: Request) {
     // Store the user's message for regular chat
     await prisma.message.create({
       data: {
-        content: userMessage.content,
+        content: messages.length === 1 ? `Let's discuss about ${userMessage.content}. Please provide an overview of this topic and what aspects we can explore.` : userMessage.content,
         role: userMessage.role,
         conversationId,
       },
@@ -121,15 +121,37 @@ export async function POST(req: Request) {
 
       const stream = streamText({
         model: provider,
-        messages: messages.map((message: ChatMessage) => {
-          // console.log('Message:', message);
-          return ({
-            content: message.content,
-            role: message.role,
-            name: message.name,
-            // tool_calls: message.tool_calls,
-          })
-        }),
+        messages: [
+          ...(messages.length === 1 ? [
+            {
+              role: 'system',
+              name: 'Lexicon Finder',
+              content: `
+You're Lexicon Finder. For the topic '{topic}', extract and list exactly {num_words} vocabulary words.
+            Requirements:
+            
+Each word must be uncommon - beyond the most common 7000 words but within the most common 30000 words in English
+Words should be verifiable using Google Ngram Viewer frequency data
+Avoid rare idioms or phrases
+All words must be directly related to {topic}
+Include a mix of:
+Technical terms specific to {topic}
+Related verbs
+Related adjectives
+Related nouns
+
+Format: Return ONLY a comma-separated list of words, with no additional text or explanations. start with <ARRAY>`
+            }]
+          : []),
+          ...messages.map((message: ChatMessage) => {
+            // console.log('Message:', message);
+            return ({
+              content: message.content,
+              role: message.role,
+              name: message.name,
+              // tool_calls: message.tool_calls,
+            })
+          })],
         // tools,
         temperature: selectedModel.temperature,
         maxTokens: selectedModel.maxTokens,
