@@ -36,7 +36,8 @@ class VocabularyManager:
             model = genai.GenerativeModel('models/gemini-1.5-pro')
             
             # Craft the prompt
-            prompt = f"""You're Lexicon Finder. For the topic '{topic}', extract and list exactly {num_words} vocabulary words.
+            prompt = f"""
+            You're Lexicon Finder. For the topic '{topic}', extract and list exactly {num_words} vocabulary words.
             Requirements:
             1. Each word must be uncommon - beyond the most common 7000 words but within the most common 30000 words in English
             2. Words should be verifiable using Google Ngram Viewer frequency data
@@ -48,7 +49,9 @@ class VocabularyManager:
                - Related adjectives
                - Related nouns
             
-            Format: Return ONLY a comma-separated list of words, with no additional text or explanations."""
+            Format: Return ONLY a comma-separated list of words, with no additional text or explanations. 
+            Do add <JSON> at the beginning of the list.
+            """
 
             # Generate response
             response = model.generate_content(prompt)
