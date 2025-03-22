@@ -18,17 +18,17 @@ class VocabularyManager:
         self.deleted_words: List[str] = []  # Track deleted words
         self.topic: str = ""
 
-    def generate_vocabulary(self, topic: str, num_words: int = 50) -> List[Dict]:
+    def generate_vocabulary(self, topic: str, num_words: int = 20) -> List[str]:
         """
         Generate vocabulary words related to a specific topic using Gemini API.
         Focuses on uncommon but useful words (between 7000-30000 most common words).
         
         Args:
             topic (str): The topic to generate vocabulary for
-            num_words (int): Number of words to generate (default: 50)
+            num_words (int): Number of words to generate
         
         Returns:
-            List[Dict]: List of dictionaries containing words and their status
+            List[str]: List of generated vocabulary words
         """
         try:
             self.topic = topic
@@ -59,8 +59,6 @@ class VocabularyManager:
             # Ensure we have exactly the requested number of words
             if len(words) > num_words:
                 words = words[:num_words]
-            elif len(words) < num_words:
-                print(f"Warning: Only generated {len(words)} words instead of requested {num_words}")
             
             # Convert to list of dictionaries with word status
             self.word_list = [
@@ -72,56 +70,20 @@ class VocabularyManager:
                 for i, word in enumerate(words)
             ]
             
-            # Save to JSON immediately after generation
+            # Save to JSON
             self.save_to_json()
             
-            return self.word_list
+            # Return only the words
+            return [word["word"] for word in self.word_list]
 
         except Exception as e:
-            print(f"Error generating vocabulary: {str(e)}")
             return []
 
-### STEP3: Delete words not necessary ###
-    def delete_word(self, word_id: int) -> bool:
-        """
-        Mark a word as deleted by its ID.
-        
-        Args:
-            word_id (int): ID of the word to delete
-            
-        Returns:
-            bool: True if word was found and deleted, False otherwise
-        """
-        for word_dict in self.word_list:
-            if word_dict["id"] == word_id:
-                word_dict["deleted"] = True
-                self.deleted_words.append(word_dict["word"])
-                # Save to JSON after deletion
-                self.save_to_json()
-                return True
-        return False
-
-    def get_active_words(self) -> List[Dict]:
-        """
-        Get list of words that haven't been deleted.
-        
-        Returns:
-            List[Dict]: List of active (non-deleted) words
-        """
-        return [word for word in self.word_list if not word["deleted"]]
-
     def save_to_json(self) -> str:
-        """
-        Save the current vocabulary list to a JSON file.
-        
-        Returns:
-            str: Path to the saved JSON file
-        """
-        # Create a timestamp for the filename
+        """Save the current vocabulary list to a JSON file."""
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         filename = f"vocabulary_{self.topic.lower().replace(' ', '_')}_{timestamp}.json"
         
-        # Prepare data structure
         data = {
             "topic": self.topic,
             "timestamp": timestamp,
@@ -131,39 +93,39 @@ class VocabularyManager:
             "words": self.word_list
         }
         
-        # Save to JSON file
         with open(filename, 'w', encoding='utf-8') as f:
             json.dump(data, f, indent=2, ensure_ascii=False)
-        
-        print(f"\nVocabulary saved to: {filename}")
         return filename
 
-### STEP1: Ask for topic ###
-### STEP2: Generate vocabulary ###
-def test_generate():
-    """Test function to generate vocabulary for a sample topic"""
+    def get_active_words(self) -> List[Dict]:
+        """Get list of words that haven't been deleted."""
+        return [word for word in self.word_list if not word["deleted"]]
+
+def generate_words(topic: str, num_words: int = 20) -> str:
+    """Generate vocabulary words for a topic and return as comma-separated string."""
     manager = VocabularyManager()
-    test_topic = "Gaming"  # Default topic for testing
-    print(f"Generating vocabulary for topic: {test_topic}")
+    words = manager.generate_vocabulary(topic)
+    return ", ".join(words)
+
+def delete_words(topic: str, word_ids: List[int]) -> str:
+    """Delete specific words by their IDs and return updated list."""
+    manager = VocabularyManager()
+    words = manager.generate_vocabulary(topic)
     
-    # Generate initial word list
-    words = manager.generate_vocabulary(test_topic)
+    # Delete specified words
+    for word_id in word_ids:
+        if 0 <= word_id < len(manager.word_list):
+            manager.word_list[word_id]["deleted"] = True
+            manager.deleted_words.append(manager.word_list[word_id]["word"])
     
-    # Print initial list
-    print(f"\nGenerated {len(words)} words for topic '{test_topic}':")
-    active_words = manager.get_active_words()
-    print(", ".join(word["word"] for word in active_words))
+    # Save updated list
+    manager.save_to_json()
     
-    # Simulate deleting some words (for testing)
-    print("\nSimulating deletion of words with IDs 1, 3, 5...")
-    for word_id in [1, 3, 5]:
-        if manager.delete_word(word_id):
-            print(f"Deleted word with ID {word_id}")
-    
-    # Print remaining words
-    print("\nRemaining words after deletion:")
-    active_words = manager.get_active_words()
-    print(", ".join(word["word"] for word in active_words))
+    # Return remaining words
+    active_words = [word["word"] for word in manager.word_list if not word["deleted"]]
+    return ", ".join(active_words)
 
 if __name__ == "__main__":
-    test_generate()  # Run test function instead of asking for input
+    # Example of generating words
+    result = generate_words("Gaming")
+    print(result)
