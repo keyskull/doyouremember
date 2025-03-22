@@ -110,8 +110,6 @@ class VocabularyManager:
         """
         return [word for word in self.word_list if not word["deleted"]]
 
-
-### STEP4: Save the list as JSON file ###
     def save_to_json(self) -> str:
         """
         Save the current vocabulary list to a JSON file.
@@ -145,7 +143,7 @@ class VocabularyManager:
 def test_generate():
     """Test function to generate vocabulary for a sample topic"""
     manager = VocabularyManager()
-    test_topic = input("Enter the topic: ")
+    test_topic = "Gaming"  # Default topic for testing
     print(f"Generating vocabulary for topic: {test_topic}")
     
     # Generate initial word list
@@ -154,8 +152,7 @@ def test_generate():
     # Print initial list
     print(f"\nGenerated {len(words)} words for topic '{test_topic}':")
     active_words = manager.get_active_words()
-    for word in active_words:
-        print(f"{word['id']}. {word['word']}")
+    print(", ".join(word["word"] for word in active_words))
     
     # Simulate deleting some words (for testing)
     print("\nSimulating deletion of words with IDs 1, 3, 5...")
@@ -166,8 +163,7 @@ def test_generate():
     # Print remaining words
     print("\nRemaining words after deletion:")
     active_words = manager.get_active_words()
-    for word in active_words:
-        print(f"{word['id']}. {word['word']}")
+    print(", ".join(word["word"] for word in active_words))
 
 if __name__ == "__main__":
     test_generate()  # Run test function instead of asking for input
