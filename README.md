@@ -61,10 +61,10 @@ The easiest way to deploy this Next.js app is to use the [Vercel Platform](https
 
 ## 👥 Team
 
-- CiciWww Wang
-- Selina Bian
-- Cullen Lee
-- wwang4768 Wang
+- [CiciWww Wang](https://github.com/CillianW)
+- [Selina Bian](https://github.com/Yingxuan-Selina-Bian)
+- [Cullen Lee](https://github.com/keyskull)
+- [wwang4768 Wang](https://github.com/wwang4768)
 
 ## 📝 License
 
