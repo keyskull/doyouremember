@@ -1,6 +1,28 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Do You Remember 🎯
 
-## Getting Started
+A fun, immersive language-learning tool for memorizing words based on your interests! Winner of the "Best real-world application of Rime voices" award at the AI Agents Hackathon GTC 2025.
+
+## 🏆 Hackathon Achievement
+
+This project was developed for and won an award at the [AI Agents Hackathon GTC 2025](https://ai-agents-hackathon-gtc.devpost.com/), specifically winning the "Best real-world application of Rime voices" category. The hackathon focused on building multimodal AI agents capable of advanced reasoning and autonomous decision-making to solve complex, real-world enterprise challenges.
+
+## ✨ Features
+
+- Generate personalized vocabulary lists based on your interests
+- Create interactive flashcards with contextual information
+- Automatically fetch relevant images and videos from the web
+- Generate high-quality text-to-speech audio for pronunciation practice
+- Seamlessly export vocabulary lists to Anki for long-term retention
+
+## 🛠️ Tech Stack
+
+- **Frontend & Backend**: Next.js
+- **AI & NLP**: Google Cloud API & ConceptNet
+- **Web Scraping**: Apify
+- **Text-to-Speech**: Rime API
+- **Language Learning Integration**: Anki
+
+## 🚀 Getting Started
 
 First, run the development server:
 
@@ -16,21 +38,34 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🔮 Future Plans
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Enhanced Personalization: Fine-tune vocabulary selection with user feedback loops
+- Gamification Elements: Introduce challenges and leaderboards
+- Mobile App Integration: Expand beyond web-based tools
+- Multilingual Support: Enable learning in multiple languages
+- Voice Interaction: Real-time pronunciation feedback
 
-## Learn More
+## 📚 Learn More
 
-To learn more about Next.js, take a look at the following resources:
+To learn more about the technologies used in this project:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Learn Next.js](https://nextjs.org/learn)
+- [Rime API Documentation](https://rime.ai)
+- [Apify Documentation](https://docs.apify.com)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🚀 Deployment
 
-## Deploy on Vercel
+The easiest way to deploy this Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme).
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 👥 Team
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- CiciWww Wang
+- Selina Bian
+- Cullen Lee
+- wwang4768 Wang
+
+## 📝 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
